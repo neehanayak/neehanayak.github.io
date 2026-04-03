@@ -414,67 +414,8 @@
 
       <section class="section-card card">
         <div class="section-head">
-          <h2>Contributions</h2>
-          <div class="muted-pill" id="totalContrib">Contribution Snake</div>
-        </div>
-        <div class="contrib-chart-wrap">
-          <img
-            class="contrib-chart"
-            id="snakeImg"
-            src="https://raw.githubusercontent.com/neehanayak/neehanayak/output/github-contribution-grid-snake-dark.svg"
-            alt="GitHub contribution snake"
-          />
-        </div>
-        <div class="legend">
-          <span>Live GitHub snake from your profile.</span>
-          <div class="legend-scale">
-            <span>Less</span>
-            <span class="tiny-badge">Snake</span>
-            <span>More</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="two-col">
-        <div class="section-card card">
-          <div class="section-head">
-            <h2>About Me</h2>
-          </div>
-          <p class="about-text">
-            I build scalable data platforms, machine learning pipelines, and cloud-native applications with a strong focus on practical business impact.
-            My work blends data engineering fundamentals, analytics thinking, and applied AI to create reliable systems that move from prototype to production.
-          </p>
-
-          <div class="subtle-title">CORE TECHNOLOGIES</div>
-          <div class="tech-tags">
-            <span>Python</span>
-            <span>SQL</span>
-            <span>Airflow</span>
-            <span>Spark</span>
-            <span>GCP</span>
-            <span>BigQuery</span>
-            <span>Vertex AI</span>
-            <span>Databricks</span>
-            <span>AWS</span>
-            <span>Docker</span>
-            <span>Kubernetes</span>
-          </div>
-        </div>
-
-        <div class="section-card card">
-          <div class="section-head">
-            <h2>Languages</h2>
-          </div>
-          <div class="chart-wrap">
-            <canvas id="langChart" width="320" height="320"></canvas>
-          </div>
-        </div>
-      </section>
-
-      <section class="section-card card">
-        <div class="section-head">
           <h2>Notable Projects</h2>
-          <div class="muted-pill">Auto-fetched from your public repositories</div>
+        </div>
         </div>
         <div id="projects" class="projects-grid"></div>
       </section>
@@ -538,14 +479,17 @@
         const filtered = repos
           .filter(repo => !repo.fork)
           .sort((a, b) => (b.stargazers_count + b.forks_count) - (a.stargazers_count + a.forks_count))
-          .slice(0, 4);
+          ;
 
         if (!filtered.length) {
           container.innerHTML = '<div class="project-card"><div><div class="project-title">No public projects yet</div><p class="project-desc">Once you push public repositories with descriptions, they will appear here automatically.</p></div></div>';
           return;
         }
 
-        container.innerHTML = filtered.map(repo => `
+        container.innerHTML = repos
+          .filter(repo => !repo.fork)
+          .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+          .map(repo => `
           <article class="project-card">
             <div>
               <a class="project-title" href="${repo.html_url}" target="_blank">${repo.name}</a>
