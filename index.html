@@ -392,10 +392,10 @@
       </div>
 
       <div class="name" id="fullName">Neha Vivekananda Nayak</div>
-      <div class="username" id="userHandle">@neehanayak</div>
+      <div class="username" id="userHandle">@neeehanayak</div>
       <div class="tagline">Building production-grade data and intelligent systems</div>
 
-      <a class="btn" id="followBtn" href="https://github.com/neehanayak" target="_blank">View GitHub</a>
+      <a class="btn" id="followBtn" href="https://github.com/neeehanayak" target="_blank">View GitHub</a>
 
       <div class="meta">
         <div class="meta-item">🏢 <span>Open to Data Engineering, AI, ML roles</span></div>
@@ -448,7 +448,15 @@
       const metricsContainer = document.getElementById('metrics');
       const container = document.getElementById('projects');
       try {
-        const res = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
+        const res = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`, {
+          headers: {
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+
+        if (!res.ok) {
+          throw new Error('GitHub API failed');
+        }
         const repos = await res.json();
 
         const totalRepos = repos.length;
@@ -508,7 +516,7 @@
         buildLanguageChart(repos);
       } catch (err) {
         console.error('Repo load failed', err);
-        container.innerHTML = '<div class="project-card"><div><div class="project-title">Could not load repositories</div><p class="project-desc">Check that the repo is public and GitHub Pages is enabled.</p></div></div>';
+        container.innerHTML = `<div style="color:#9ca3af;padding:20px;">No public repositories found or API limit reached.</div>`;
         buildLanguageChart([]);
       }
     }
