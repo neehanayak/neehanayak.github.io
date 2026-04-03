@@ -129,12 +129,43 @@
     }
 
     .hero {
-      padding: 28px;
-      min-height: 100px;
+      padding: 20px;
+      min-height: 80px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .metric-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 20px 16px;
+      border-radius: 16px;
+      text-align: center;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #f3f4f6;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
 
     .hero h1 { font-size: 2.1rem; line-height: 1.1; margin-bottom: 10px; }
@@ -367,9 +398,9 @@
       <a class="btn" id="followBtn" href="https://github.com/neeehanayak" target="_blank">View GitHub</a>
 
       <div class="meta">
-        <div class="meta-item">💼 <span>Open to Data Engineering, AI, ML roles</span></div>
+        <div class="meta-item">🏢 <span>Open to Data Engineering, AI, ML roles</span></div>
         <div class="meta-item">📍 <span>Syracuse, NY</span></div>
-        <div class="meta-item">🎓 <span>MS in Computer Science, Syracuse University</span></div>
+        <div class="meta-item">📅 <span>Joined GitHub</span></div>
       </div>
     </aside>
 
@@ -377,10 +408,6 @@
       <section class="hero card">
         <div>
           <h1>Welcome to Neha's Hub</h1>
-          <p>
-            A dark, recruiter-friendly portfolio dashboard inspired by premium GitHub profile layouts.
-            This version automatically pulls your public repositories and shows them in a polished project showcase.
-          </p>
         </div>
         <div class="powered">Powered by GitHub API</div>
       </section>
@@ -388,21 +415,21 @@
       <section class="section-card card">
         <div class="section-head">
           <h2>Contributions</h2>
-          <div class="muted-pill">Recent activity style view</div>
+          <div class="muted-pill" id="totalContrib">Contribution Snake</div>
         </div>
         <div class="contrib-chart-wrap">
           <img
             class="contrib-chart"
-            id="contribChart"
-            src="https://ghchart.rshah.org/22c55e/neehanayak"
-            alt="GitHub contribution chart for Neha Nayak"
+            id="snakeImg"
+            src="https://raw.githubusercontent.com/neehanayak/neehanayak/output/github-contribution-grid-snake-dark.svg"
+            alt="GitHub contribution snake"
           />
         </div>
         <div class="legend">
-          <span>Live GitHub contribution chart for your profile.</span>
+          <span>Live GitHub snake from your profile.</span>
           <div class="legend-scale">
             <span>Less</span>
-            <span class="tiny-badge">GitHub data</span>
+            <span class="tiny-badge">Snake</span>
             <span>More</span>
           </div>
         </div>
@@ -454,16 +481,18 @@
   <script>
     const username = 'neehanayak';
 
-        async function loadProfile() {
+        let profileCache = {};
+
+    async function loadProfile() {
       try {
         const profileRes = await fetch(`https://api.github.com/users/${username}`);
         const profile = await profileRes.json();
+        profileCache = profile;
 
         if (profile.avatar_url) document.getElementById('avatar').src = profile.avatar_url;
         if (profile.name) document.getElementById('fullName').textContent = profile.name;
         if (profile.login) {
           document.getElementById('userHandle').textContent = '@' + profile.login;
-          document.getElementById('contribChart').src = `https://ghchart.rshah.org/22c55e/${profile.login}`;
           document.getElementById('snakeImg').src = `https://raw.githubusercontent.com/${profile.login}/${profile.login}/output/github-contribution-grid-snake-dark.svg`;
         }
       } catch (err) {
@@ -472,10 +501,36 @@
     }
 
     async function loadRepos() {
+      const metricsContainer = document.getElementById('metrics');
       const container = document.getElementById('projects');
       try {
         const res = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
         const repos = await res.json();
+
+        const totalRepos = repos.length;
+        const totalStars = repos.reduce((sum, r) => sum + r.stargazers_count, 0);
+        const followers = profileCache.followers || 0;
+        const createdYear = profileCache.created_at ? new Date(profileCache.created_at).getFullYear() : new Date().getFullYear();
+        const yearsActive = new Date().getFullYear() - createdYear;
+
+        metricsContainer.innerHTML = `
+          <div class="metric-card">
+            <div class="metric-value">${totalRepos}</div>
+            <div class="metric-label">Total Repos</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">${totalStars}</div>
+            <div class="metric-label">Total Stars</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">${followers}</div>
+            <div class="metric-label">Followers</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">${yearsActive}</div>
+            <div class="metric-label">Years Active</div>
+          </div>
+        `;
 
         const filtered = repos
           .filter(repo => !repo.fork)
@@ -552,8 +607,7 @@
       });
     }
 
-    loadProfile();
-    loadRepos();
+    loadProfile().then(loadRepos);
   </script>
 </body>
 </html>
