@@ -1,85 +1,548 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Neha Nayak</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neha Nayak | GitHub Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #050505;
+      --panel: #101113;
+      --panel-2: #14161a;
+      --border: rgba(255,255,255,0.06);
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --purple: #8b5cf6;
+      --blue: #5b7cff;
+      --green: #22c55e;
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+      --radius: 24px;
+    }
+
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0d1117;
-      color: #c9d1d9;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top left, rgba(91,124,255,0.12), transparent 22%),
+                  radial-gradient(circle at top right, rgba(139,92,246,0.10), transparent 22%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
     }
 
     .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 40px;
-    }
-
-    h1 {
-      font-size: 3rem;
-      color: #58a6ff;
-    }
-
-    h2 {
-      border-bottom: 1px solid #30363d;
-      padding-bottom: 5px;
-      margin-top: 40px;
-    }
-
-    a {
-      color: #58a6ff;
-      text-decoration: none;
+      max-width: 1380px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
     }
 
     .card {
-      background: #161b22;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 10px;
-      transition: 0.3s;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      background: #21262d;
+    .sidebar {
+      padding: 26px;
+      position: sticky;
+      top: 24px;
+      height: fit-content;
+    }
+
+    .avatar-wrap {
+      width: 190px;
+      height: 190px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      padding: 5px;
+      background: linear-gradient(135deg, rgba(91,124,255,0.85), rgba(139,92,246,0.75));
+      box-shadow: 0 0 30px rgba(91,124,255,0.24);
+    }
+
+    .avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #0d1117;
+      display: block;
+    }
+
+    .name { font-size: 2rem; font-weight: 800; margin-top: 10px; }
+    .username { color: var(--muted); font-size: 1.05rem; margin-top: 6px; }
+    .tagline { color: #9f7aea; margin-top: 10px; font-size: 0.98rem; }
+
+    .chips {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 18px 0 22px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.05);
+      color: #d1d5db;
+      font-size: 0.84rem;
+    }
+
+    .btn {
+      width: 100%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 14px 18px;
+      border-radius: 14px;
+      text-decoration: none;
+      color: white;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--purple), var(--blue));
+      margin: 8px 0 22px;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); opacity: 0.95; }
+
+    .meta {
+      display: grid;
+      gap: 14px;
+      color: #d1d5db;
+      font-size: 0.95rem;
+    }
+
+    .meta-item { display: flex; gap: 10px; align-items: center; color: var(--muted); }
+
+    .main {
+      display: grid;
+      gap: 24px;
+    }
+
+    .hero {
+      padding: 28px;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .hero h1 { font-size: 2.1rem; line-height: 1.1; margin-bottom: 10px; }
+    .hero p { color: var(--muted); max-width: 720px; line-height: 1.7; }
+
+    .powered {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.05);
+      color: var(--muted);
+      white-space: nowrap;
+      font-size: 0.85rem;
+    }
+
+    .section-card { padding: 24px; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-head h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+    }
+
+    .muted-pill {
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .contrib-grid {
+      display: grid;
+      grid-template-columns: repeat(26, 1fr);
+      gap: 6px;
+      margin-top: 18px;
+    }
+
+    .box {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 4px;
+      background: #0f1d13;
+      border: 1px solid rgba(255,255,255,0.02);
+    }
+
+    .l0 { background: #0b0f0c; }
+    .l1 { background: #11331c; }
+    .l2 { background: #17622f; }
+    .l3 { background: #1fa34a; }
+    .l4 { background: #84f15d; }
+
+    .legend {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .legend-scale {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+    }
+
+    .about-text {
+      color: #d4d4d8;
+      line-height: 1.85;
+      font-size: 1rem;
+      margin-bottom: 26px;
+    }
+
+    .subtle-title {
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tech-tags span {
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: #f6d36b;
+      background: rgba(246, 211, 107, 0.06);
+      border: 1px solid rgba(246, 211, 107, 0.10);
+    }
+
+    .chart-wrap {
+      min-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .project-card {
+      padding: 22px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--border);
+      transition: transform .2s ease, border-color .2s ease;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(139,92,246,0.35);
+    }
+
+    .project-title {
+      color: #a78bfa;
+      font-weight: 800;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+
+    .project-desc {
+      color: var(--muted);
+      margin-top: 10px;
+      line-height: 1.7;
+    }
+
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .project-stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .tiny-badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.03);
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 1100px) {
+      .container { grid-template-columns: 1fr; }
+      .sidebar { position: relative; top: 0; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      body { padding: 14px; }
+      .hero { flex-direction: column; align-items: flex-start; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .section-head { flex-direction: column; align-items: flex-start; }
+      .name { font-size: 1.7rem; }
+      .hero h1 { font-size: 1.7rem; }
+      .contrib-grid { gap: 4px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Neha Vivekananda Nayak</h1>
-    <p>Data Engineer | AI/ML Engineer</p>
+    <aside class="sidebar card">
+      <div class="avatar-wrap">
+        <img class="avatar" src="https://avatars.githubusercontent.com/u/00000000?v=4" alt="Profile photo" id="avatar" />
+      </div>
 
-    <h2>About</h2>
-    <p>
-      Building scalable data systems and intelligent applications.
-      Focused on data engineering, machine learning, and cloud platforms.
-    </p>
+      <div class="chips">
+        <span class="chip">Data Engineer</span>
+        <span class="chip">AI / ML</span>
+        <span class="chip">Cloud Builder</span>
+      </div>
 
-    <h2>Projects</h2>
+      <div class="name" id="fullName">Neha Vivekananda Nayak</div>
+      <div class="username" id="userHandle">@neeehanayak</div>
+      <div class="tagline">Building production-grade data and intelligent systems</div>
 
-    <div class="card">
-      <h3>Retail Demand Forecasting</h3>
-      <p>BigQuery + Vertex AI pipeline processing billions of rows.</p>
-    </div>
+      <a class="btn" id="followBtn" href="https://github.com/neeehanayak" target="_blank">View GitHub</a>
 
-    <div class="card">
-      <h3>Financial Data Lakehouse</h3>
-      <p>GCP + Iceberg + Prophet forecasting system.</p>
-    </div>
+      <div class="meta">
+        <div class="meta-item">💼 <span>Open to Data Engineering, AI, ML roles</span></div>
+        <div class="meta-item">📍 <span>Syracuse, NY</span></div>
+        <div class="meta-item">🎓 <span>MS in Computer Science, Syracuse University</span></div>
+      </div>
+    </aside>
 
-    <div class="card">
-      <h3>RAG PDF Quiz Generator</h3>
-      <p>FastAPI + FAISS + OpenAI powered system.</p>
-    </div>
+    <main class="main">
+      <section class="hero card">
+        <div>
+          <h1>Welcome to Neha's Hub</h1>
+          <p>
+            A dark, recruiter-friendly portfolio dashboard inspired by premium GitHub profile layouts.
+            This version automatically pulls your public repositories and shows them in a polished project showcase.
+          </p>
+        </div>
+        <div class="powered">Powered by GitHub API</div>
+      </section>
 
-    <h2>Links</h2>
-    <p>
-      <a href="https://github.com/neehanayak">GitHub</a> |
-      <a href="https://www.linkedin.com/in/neha-vivekananda-nayak/">LinkedIn</a>
-    </p>
+      <section class="section-card card">
+        <div class="section-head">
+          <h2>Contributions</h2>
+          <div class="muted-pill">Recent activity style view</div>
+        </div>
+        <div id="contributionGrid" class="contrib-grid"></div>
+        <div class="legend">
+          <span>Last 6 months of visual activity.</span>
+          <div class="legend-scale">
+            <span>Less</span>
+            <span class="box l0"></span>
+            <span class="box l1"></span>
+            <span class="box l2"></span>
+            <span class="box l3"></span>
+            <span class="box l4"></span>
+            <span>More</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="two-col">
+        <div class="section-card card">
+          <div class="section-head">
+            <h2>About Me</h2>
+          </div>
+          <p class="about-text">
+            I build scalable data platforms, machine learning pipelines, and cloud-native applications with a strong focus on practical business impact.
+            My work blends data engineering fundamentals, analytics thinking, and applied AI to create reliable systems that move from prototype to production.
+          </p>
+
+          <div class="subtle-title">CORE TECHNOLOGIES</div>
+          <div class="tech-tags">
+            <span>Python</span>
+            <span>PySpark</span>
+            <span>BigQuery</span>
+            <span>Databricks</span>
+            <span>Snowflake</span>
+            <span>Airflow</span>
+            <span>Vertex AI</span>
+            <span>FastAPI</span>
+          </div>
+        </div>
+
+        <div class="section-card card">
+          <div class="section-head">
+            <h2>Languages</h2>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="langChart" width="320" height="320"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-card card">
+        <div class="section-head">
+          <h2>Notable Projects</h2>
+          <div class="muted-pill">Auto-fetched from your public repositories</div>
+        </div>
+        <div id="projects" class="projects-grid"></div>
+      </section>
+    </main>
   </div>
+
+  <script>
+    const username = 'neeehanayak';
+
+    function generateContributionBlocks() {
+      const grid = document.getElementById('contributionGrid');
+      const total = 26 * 7;
+      for (let i = 0; i < total; i++) {
+        const cell = document.createElement('div');
+        const levels = ['l0','l1','l2','l3','l4'];
+        const weighted = [0,1,1,2,2,2,3,3,4];
+        cell.className = `box ${levels[weighted[Math.floor(Math.random() * weighted.length)]]}`;
+        grid.appendChild(cell);
+      }
+    }
+
+    async function loadProfile() {
+      try {
+        const profileRes = await fetch(`https://api.github.com/users/${username}`);
+        const profile = await profileRes.json();
+
+        if (profile.avatar_url) document.getElementById('avatar').src = profile.avatar_url;
+        if (profile.name) document.getElementById('fullName').textContent = profile.name;
+        if (profile.login) document.getElementById('userHandle').textContent = '@' + profile.login;
+      } catch (err) {
+        console.error('Profile load failed', err);
+      }
+    }
+
+    async function loadRepos() {
+      const container = document.getElementById('projects');
+      try {
+        const res = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
+        const repos = await res.json();
+
+        const filtered = repos
+          .filter(repo => !repo.fork)
+          .sort((a, b) => (b.stargazers_count + b.forks_count) - (a.stargazers_count + a.forks_count))
+          .slice(0, 4);
+
+        if (!filtered.length) {
+          container.innerHTML = '<div class="project-card"><div><div class="project-title">No public projects yet</div><p class="project-desc">Once you push public repositories with descriptions, they will appear here automatically.</p></div></div>';
+          return;
+        }
+
+        container.innerHTML = filtered.map(repo => `
+          <article class="project-card">
+            <div>
+              <a class="project-title" href="${repo.html_url}" target="_blank">${repo.name}</a>
+              <p class="project-desc">${repo.description || 'Add a good GitHub repo description and it will show up here.'}</p>
+            </div>
+            <div class="project-footer">
+              <div class="project-stats">
+                <span>⭐ ${repo.stargazers_count}</span>
+                <span>⑂ ${repo.forks_count}</span>
+              </div>
+              <span class="tiny-badge">${repo.language || 'Code'}</span>
+            </div>
+          </article>
+        `).join('');
+
+        buildLanguageChart(repos);
+      } catch (err) {
+        console.error('Repo load failed', err);
+        container.innerHTML = '<div class="project-card"><div><div class="project-title">Could not load repositories</div><p class="project-desc">Check that the repo is public and GitHub Pages is enabled.</p></div></div>';
+        buildLanguageChart([]);
+      }
+    }
+
+    function buildLanguageChart(repos) {
+      const counts = {};
+      repos.forEach(repo => {
+        if (repo.language) counts[repo.language] = (counts[repo.language] || 0) + 1;
+      });
+
+      const labels = Object.keys(counts).slice(0, 5);
+      const values = labels.map(label => counts[label]);
+
+      const ctx = document.getElementById('langChart');
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels.length ? labels : ['Python', 'SQL', 'HTML'],
+          datasets: [{
+            data: values.length ? values : [5, 3, 2],
+            backgroundColor: ['#6b7280', '#8b5cf6', '#ec4899', '#f3f4f6', '#374151'],
+            borderColor: '#111318',
+            borderWidth: 6,
+            hoverOffset: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          cutout: '68%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: '#d1d5db',
+                usePointStyle: true,
+                boxWidth: 10,
+                padding: 16,
+                font: { family: 'Inter', size: 12 }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    generateContributionBlocks();
+    loadProfile();
+    loadRepos();
+  </script>
 </body>
 </html>
