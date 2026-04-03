@@ -1,1 +1,748 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neha Vivekananda Nayak | GitHub Portfolio</title>
+  <meta name="description" content="GitHub portfolio for Neha Vivekananda Nayak" />
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-soft: #0b1120;
+      --panel: rgba(18, 18, 24, 0.92);
+      --panel-2: rgba(22, 22, 30, 0.96);
+      --border: rgba(255, 255, 255, 0.06);
+      --text: #f8fafc;
+      --muted: #9ca3af;
+      --purple: #8b5cf6;
+      --purple-2: #6d5dfc;
+      --green: #22c55e;
+      --pink: #ec4899;
+      --yellow: #f4c95d;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.32);
+      --radius: 24px;
+      --container: 1320px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(139, 92, 246, 0.10), transparent 25%),
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.10), transparent 20%),
+        linear-gradient(180deg, #030612 0%, #050816 50%, #040510 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .container {
+      width: min(var(--container), calc(100% - 28px));
+      margin: 0 auto;
+    }
+
+    .page {
+      padding: 18px 0 40px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--panel-2), var(--panel));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar {
+      padding: 22px;
+      position: sticky;
+      top: 18px;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: 190px;
+      height: 190px;
+      margin: 0 auto 18px;
+    }
+
+    .avatar-glow {
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.4), transparent 65%);
+      filter: blur(12px);
+      z-index: 0;
+    }
+
+    .avatar {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid rgba(255,255,255,0.14);
+      background: linear-gradient(135deg, #f5d76e, #fafafa 50%, #a78bfa 100%);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 72px;
+      color: #1f2440;
+    }
+
+    .floating-tags {
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      gap: 8px;
+      z-index: 2;
+    }
+
+    .mini-tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.92);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px;
+      color: #e5e7eb;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+    }
+
+    .name {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .username {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .role {
+      margin-top: 10px;
+      color: #a78bfa;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .follow-btn {
+      margin-top: 22px;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: linear-gradient(90deg, var(--purple), var(--purple-2));
+      color: white;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .side-list {
+      margin-top: 18px;
+      display: grid;
+      gap: 12px;
+      color: #d1d5db;
+      font-size: 14px;
+    }
+
+    .side-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #d1d5db;
+    }
+
+    .icon {
+      width: 18px;
+      text-align: center;
+      opacity: 0.85;
+    }
+
+    .content {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-card {
+      padding: 26px;
+    }
+
+    .hero-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .badge {
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #d1d5db;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      white-space: nowrap;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .stat-box {
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 18px;
+      padding: 22px 18px;
+      text-align: center;
+    }
+
+    .stat-number {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-box:last-child .stat-number {
+      color: var(--green);
+    }
+
+    .stat-label {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .section-card {
+      padding: 26px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .contribution-grid {
+      min-height: 120px;
+      display: grid;
+      place-items: center;
+    }
+
+    .snake-frame {
+      width: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 10px;
+    }
+
+    .snake-frame img {
+      width: 100%;
+      min-height: 90px;
+      object-fit: contain;
+    }
+
+    .note {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .about-text {
+      color: #e5e7eb;
+      line-height: 1.85;
+      font-size: 15px;
+      margin: 0;
+      max-width: 48ch;
+    }
+
+    .subheading {
+      margin-top: 24px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tech-pill {
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--yellow);
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .lang-wrap {
+      min-height: 340px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .donut {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: conic-gradient(var(--purple) 0 36%, var(--pink) 36% 58%, #e5e7eb 58% 78%, #4b5563 78% 100%);
+      position: relative;
+    }
+
+    .donut::after {
+      content: "";
+      position: absolute;
+      inset: 28px;
+      border-radius: 50%;
+      background: #17171f;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      color: #d1d5db;
+      font-size: 13px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .project-card {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 180px;
+    }
+
+    .repo-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .repo-name {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 800;
+      color: #9f7aea;
+      letter-spacing: -0.02em;
+      word-break: break-word;
+    }
+
+    .repo-lang {
+      padding: 6px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      color: #d1d5db;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      white-space: nowrap;
+    }
+
+    .repo-desc {
+      margin: 0;
+      color: #d1d5db;
+      line-height: 1.7;
+      font-size: 14px;
+      flex: 1;
+    }
+
+    .repo-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .repo-stats {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .muted-link {
+      color: #d1d5db;
+      font-size: 16px;
+    }
+
+    .loading-card {
+      min-height: 180px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      text-align: center;
+      padding: 22px;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      padding-top: 4px;
+    }
+
+    @media (max-width: 1080px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .stats-grid,
+      .two-col,
+      .projects-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(var(--container), calc(100% - 18px));
+      }
+
+      .hero-head,
+      .section-head,
+      .repo-top,
+      .repo-meta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .stats-grid,
+      .two-col,
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .avatar-wrap {
+        width: 150px;
+        height: 150px;
+      }
+
+      .floating-tags {
+        position: static;
+        transform: none;
+        margin-top: 14px;
+        justify-items: start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="container layout">
+      <aside class="card sidebar">
+        <div class="avatar-wrap">
+          <div class="avatar-glow"></div>
+          <div class="avatar">N</div>
+          <div class="floating-tags">
+            <span class="mini-tag">Data Engineer</span>
+            <span class="mini-tag">AI / ML</span>
+            <span class="mini-tag">Builder</span>
+          </div>
+        </div>
+
+        <h1 class="name">Neha Vivekananda Nayak</h1>
+        <div class="username">@neehanayak</div>
+        <div class="role">Building production-grade data systems, analytics workflows, and applied AI projects.</div>
+
+        <a href="https://github.com/neehanayak" target="_blank" rel="noopener noreferrer">
+          <button class="follow-btn">View GitHub</button>
+        </a>
+
+        <div class="side-list">
+          <div class="side-item"><span class="icon">💼</span><span>Data Engineering · AI · ML</span></div>
+          <div class="side-item"><span class="icon">📍</span><span>Syracuse, NY</span></div>
+          <div class="side-item"><span class="icon">🎓</span><span>Syracuse University</span></div>
+          <div class="side-item"><span class="icon">🔗</span><a href="https://www.linkedin.com/in/neha-vivekananda-nayak/" target="_blank" rel="noopener noreferrer">LinkedIn Profile</a></div>
+        </div>
+      </aside>
+
+      <section class="content">
+        <section class="card hero-card">
+          <div class="hero-head">
+            <h2 class="hero-title">Welcome to Neha's Hub</h2>
+            <div class="badge">Auto-fetched from GitHub API</div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <p class="stat-number" id="totalRepos">--</p>
+              <div class="stat-label">Project Repos</div>
+            </div>
+            <div class="stat-box">
+              <p class="stat-number">350+</p>
+              <div class="stat-label">LeetCode</div>
+            </div>
+            <div class="stat-box">
+              <p class="stat-number" id="followers">--</p>
+              <div class="stat-label">Followers</div>
+            </div>
+            <div class="stat-box">
+              <p class="stat-number" id="yearsActive">--</p>
+              <div class="stat-label">Years Active</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card section-card">
+          <div class="section-head">
+            <h3 class="section-title">Contributions</h3>
+            <div class="badge">Live snake</div>
+          </div>
+          <div class="contribution-grid">
+            <div class="snake-frame">
+              <img src="https://raw.githubusercontent.com/neehanayak/neehanayak/output/github-contribution-grid-snake-dark.svg" alt="GitHub contribution snake" />
+            </div>
+          </div>
+          <div class="note">This section updates automatically after your GitHub Action regenerates the snake SVG.</div>
+        </section>
+
+        <section class="two-col">
+          <article class="card section-card">
+            <div class="section-head">
+              <h3 class="section-title">About Me</h3>
+            </div>
+            <p class="about-text">
+              I build cloud-native data platforms, machine learning pipelines, and analytics systems with a strong focus on real business impact. My work sits across data engineering, scalable ETL, forecasting, and applied AI — turning raw data into reliable products, useful insights, and production-ready workflows.
+            </p>
+
+            <div class="subheading">Core Technologies</div>
+            <div class="tech-list">
+              <span class="tech-pill">Python</span>
+              <span class="tech-pill">SQL</span>
+              <span class="tech-pill">Airflow</span>
+              <span class="tech-pill">Spark</span>
+              <span class="tech-pill">GCP</span>
+              <span class="tech-pill">BigQuery</span>
+              <span class="tech-pill">Vertex AI</span>
+              <span class="tech-pill">Databricks</span>
+              <span class="tech-pill">AWS</span>
+              <span class="tech-pill">Docker</span>
+              <span class="tech-pill">Kubernetes</span>
+            </div>
+          </article>
+
+          <article class="card section-card">
+            <div class="section-head">
+              <h3 class="section-title">Languages</h3>
+            </div>
+            <div class="lang-wrap">
+              <div class="donut"></div>
+              <div class="legend">
+                <span class="legend-item"><span class="dot" style="background:#8b5cf6"></span>Python</span>
+                <span class="legend-item"><span class="dot" style="background:#ec4899"></span>SQL</span>
+                <span class="legend-item"><span class="dot" style="background:#e5e7eb"></span>Java</span>
+                <span class="legend-item"><span class="dot" style="background:#4b5563"></span>TypeScript</span>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="card section-card">
+          <div class="section-head">
+            <h3 class="section-title">Notable Projects</h3>
+            <div class="badge">Auto fetched</div>
+          </div>
+
+          <div id="projectsGrid" class="projects-grid">
+            <article class="card loading-card">Fetching public repositories...</article>
+          </div>
+        </section>
+
+        <div class="footer-note">GitHub Pages portfolio layout with auto-fetched projects and snake support.</div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const username = 'neehanayak';
+    const totalReposEl = document.getElementById('totalRepos');
+    const followersEl = document.getElementById('followers');
+    const yearsActiveEl = document.getElementById('yearsActive');
+    const projectsGrid = document.getElementById('projectsGrid');
+
+    const preferredKeywords = ['data', 'pipeline', 'forecast', 'analytics', 'warehouse', 'lake', 'rag', 'quiz', 'ml', 'ai', 'spark', 'etl'];
+
+    function formatNumber(value) {
+      return new Intl.NumberFormat().format(value || 0);
+    }
+
+    function yearsSince(dateString) {
+      const created = new Date(dateString);
+      const now = new Date();
+      let years = now.getFullYear() - created.getFullYear();
+      const beforeAnniversary = now.getMonth() < created.getMonth() || (now.getMonth() === created.getMonth() && now.getDate() < created.getDate());
+      if (beforeAnniversary) years -= 1;
+      return Math.max(years, 0);
+    }
+
+    function scoreRepo(repo) {
+      const haystack = (repo.name + ' ' + (repo.description || '')).toLowerCase();
+      let score = 0;
+      preferredKeywords.forEach(function(word) {
+        if (haystack.indexOf(word) !== -1) score += 5;
+      });
+      if (repo.homepage) score += 2;
+      if (repo.language) score += 1;
+      score += (repo.stargazers_count || 0) * 2;
+      score += repo.fork ? -100 : 0;
+      if (repo.name.toLowerCase() === username + '.github.io') score -= 50;
+      return score;
+    }
+
+    function sanitize(text) {
+      return (text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function repoCard(repo) {
+      const description = repo.description ? sanitize(repo.description) : 'Public GitHub repository.';
+      const language = repo.language ? sanitize(repo.language) : 'Code';
+      const stars = formatNumber(repo.stargazers_count || 0);
+      const forks = formatNumber(repo.forks_count || 0);
+      const link = sanitize(repo.html_url);
+      const name = sanitize(repo.name);
+
+      return ''
+        + '<article class="card project-card">'
+        + '  <div class="repo-top">'
+        + '    <h4 class="repo-name">' + name + '</h4>'
+        + '    <span class="repo-lang">' + language + '</span>'
+        + '  </div>'
+        + '  <p class="repo-desc">' + description + '</p>'
+        + '  <div class="repo-meta">'
+        + '    <div class="repo-stats">'
+        + '      <span>☆ ' + stars + '</span>'
+        + '      <span>⑂ ' + forks + '</span>'
+        + '    </div>'
+        + '    <a class="muted-link" href="' + link + '" target="_blank" rel="noopener noreferrer">↗</a>'
+        + '  </div>'
+        + '</article>';
+    }
+
+    async function loadGitHubData() {
+      try {
+        const [userRes, repoRes] = await Promise.all([
+          fetch('https://api.github.com/users/' + username),
+          fetch('https://api.github.com/users/' + username + '/repos?sort=updated&per_page=100')
+        ]);
+
+        if (!userRes.ok || !repoRes.ok) {
+          throw new Error('GitHub API request failed');
+        }
+
+        const user = await userRes.json();
+        const repos = await repoRes.json();
+
+        const visibleRepos = repos.filter(function(repo) {
+          return !repo.fork && repo.name.toLowerCase() !== username + '.github.io';
+        });
+
+        totalReposEl.textContent = formatNumber(visibleRepos.length);
+        followersEl.textContent = formatNumber(user.followers || 0);
+        yearsActiveEl.textContent = yearsSince(user.created_at || new Date().toISOString());
+
+        const selected = visibleRepos
+          .slice()
+          .sort(function(a, b) { return scoreRepo(b) - scoreRepo(a); })
+          .slice(0, 6);
+
+        if (!selected.length) {
+          projectsGrid.innerHTML = '<article class="card loading-card">No public repositories found yet.</article>';
+          return;
+        }
+
+        projectsGrid.innerHTML = selected.map(repoCard).join('');
+      } catch (error) {
+        totalReposEl.textContent = '--';
+        followersEl.textContent = '--';
+        yearsActiveEl.textContent = '--';
+        projectsGrid.innerHTML = '<article class="card loading-card">Could not fetch GitHub repositories right now.</article>';
+      }
+    }
+
+    loadGitHubData();
+  </script>
+</body>
+</html>
