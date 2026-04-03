@@ -173,26 +173,43 @@
       font-size: 0.9rem;
     }
 
-    .contrib-grid {
-      display: grid;
-      grid-template-columns: repeat(26, 1fr);
-      gap: 6px;
-      margin-top: 18px;
+    .contrib-chart-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 8px;
+      overflow-x: auto;
     }
 
-    .box {
+    .contrib-chart {
       width: 100%;
-      aspect-ratio: 1;
-      border-radius: 4px;
-      background: #0f1d13;
-      border: 1px solid rgba(255,255,255,0.02);
+      max-width: 760px;
+      min-height: 120px;
+      object-fit: contain;
+      border-radius: 14px;
+      display: block;
+      opacity: 0.96;
     }
 
-    .l0 { background: #0b0f0c; }
-    .l1 { background: #11331c; }
-    .l2 { background: #17622f; }
-    .l3 { background: #1fa34a; }
-    .l4 { background: #84f15d; }
+    .snake-wrap {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .snake-title {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 12px;
+    }
+
+    .snake-img {
+      width: 100%;
+      max-width: 760px;
+      display: block;
+      margin: 0 auto;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.02);
+    }
 
     .legend {
       display: flex;
@@ -373,18 +390,30 @@
           <h2>Contributions</h2>
           <div class="muted-pill">Recent activity style view</div>
         </div>
-        <div id="contributionGrid" class="contrib-grid"></div>
+        <div class="contrib-chart-wrap">
+          <img
+            class="contrib-chart"
+            id="contribChart"
+            src="https://ghchart.rshah.org/22c55e/neehanayak"
+            alt="GitHub contribution chart for Neha Nayak"
+          />
+        </div>
         <div class="legend">
-          <span>Last 6 months of visual activity.</span>
+          <span>Live GitHub contribution chart for your profile.</span>
           <div class="legend-scale">
             <span>Less</span>
-            <span class="box l0"></span>
-            <span class="box l1"></span>
-            <span class="box l2"></span>
-            <span class="box l3"></span>
-            <span class="box l4"></span>
+            <span class="tiny-badge">GitHub data</span>
             <span>More</span>
           </div>
+        </div>
+        <div class="snake-wrap">
+          <div class="snake-title">Contribution Snake</div>
+          <img
+            class="snake-img"
+            id="snakeImg"
+            src="https://raw.githubusercontent.com/neehanayak/neehanayak/output/github-contribution-grid-snake-dark.svg"
+            alt="GitHub contribution snake"
+          />
         </div>
       </section>
 
@@ -434,26 +463,18 @@
   <script>
     const username = 'neehanayak';
 
-    function generateContributionBlocks() {
-      const grid = document.getElementById('contributionGrid');
-      const total = 26 * 7;
-      for (let i = 0; i < total; i++) {
-        const cell = document.createElement('div');
-        const levels = ['l0','l1','l2','l3','l4'];
-        const weighted = [0,1,1,2,2,2,3,3,4];
-        cell.className = `box ${levels[weighted[Math.floor(Math.random() * weighted.length)]]}`;
-        grid.appendChild(cell);
-      }
-    }
-
-    async function loadProfile() {
+        async function loadProfile() {
       try {
         const profileRes = await fetch(`https://api.github.com/users/${username}`);
         const profile = await profileRes.json();
 
         if (profile.avatar_url) document.getElementById('avatar').src = profile.avatar_url;
         if (profile.name) document.getElementById('fullName').textContent = profile.name;
-        if (profile.login) document.getElementById('userHandle').textContent = '@' + profile.login;
+        if (profile.login) {
+          document.getElementById('userHandle').textContent = '@' + profile.login;
+          document.getElementById('contribChart').src = `https://ghchart.rshah.org/22c55e/${profile.login}`;
+          document.getElementById('snakeImg').src = `https://raw.githubusercontent.com/${profile.login}/${profile.login}/output/github-contribution-grid-snake-dark.svg`;
+        }
       } catch (err) {
         console.error('Profile load failed', err);
       }
@@ -540,7 +561,6 @@
       });
     }
 
-    generateContributionBlocks();
     loadProfile();
     loadRepos();
   </script>
